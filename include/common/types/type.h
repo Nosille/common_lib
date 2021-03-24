@@ -6,6 +6,7 @@
 #ifndef COMMON_INCLUDE_COMMON_TYPES_TYPE_H_
 #define COMMON_INCLUDE_COMMON_TYPES_TYPE_H_
 
+#define PCL_NO_PRECOMPILE
 #include <pcl/point_cloud.h> /* pcl::PointCloud */
 #include <pcl/point_types.h> /* pcl::PointXYZ */
 #include <Eigen/Core>
