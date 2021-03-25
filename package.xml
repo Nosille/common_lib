@@ -33,6 +33,8 @@
   <!-- Examples: -->
   <!-- Use depend as a shortcut for packages that are both build and exec dependencies -->
   <depend>roscpp</depend>
+  <depend>pcl_conversions</depend>
+  <depend>pcl_ros</depend>
   <depend>tf</depend>
   <depend>tf_conversions</depend>
   <!--   Note that this is equivalent to the following: -->
