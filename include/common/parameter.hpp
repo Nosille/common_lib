@@ -131,10 +131,18 @@ static SegmenterParams getSegmenterParams(const ros::NodeHandle& nh,
     nh.getParam(ns + "/gpf_th_gnds", params.gpf_th_gnds);
 
     // RANSAC ground Segmenter
-    nh.param<double>(ns + "/sac_distance_threshold",
-                     params.sac_distance_threshold, 0.3);
+    nh.param<double>(ns + "/sac_distance_threshold", params.sac_distance_threshold, 0.3);
     nh.param<int>(ns + "/sac_max_iteration", params.sac_max_iteration, 100);
     nh.param<double>(ns + "/sac_probability", params.sac_probability, 0.99);
+
+    // Progressive Morphological Filter
+    nh.param<double>(ns + "/pmf_cell_size", params.pmf_cell_size, 0.5f);
+    nh.param<int>(ns + "/pmf_max_window_size", params.pmf_max_window_size, 20);
+    nh.param<double>(ns + "/pmf_slope", params.pmf_slope, 1.0f);
+    nh.param<double>(ns + "/pmf_initial_distance", params.pmf_initial_distance, 0.5f);
+    nh.param<double>(ns + "/pmf_max_distance", params.pmf_max_distance, 1.0f);
+    nh.param<int>(ns + "/pmf_meanK", params.pmf_meanK, 6);
+    nh.param<double>(ns + "/pmf_std", params.pmf_std, 1.0f);
 
     return params;
 }

@@ -156,6 +156,15 @@ struct SegmenterParams {
     double sac_distance_threshold;
     int sac_max_iteration;
     double sac_probability;
+    
+    // Progressive Morphological Filter
+    double pmf_cell_size;
+    int pmf_max_window_size;
+    double pmf_slope;
+    double pmf_initial_distance;
+    double pmf_max_distance;
+    double pmf_std;
+    int pmf_meanK;
 };  // struct SegmenterParams
 
 struct FeatureExtractorParams {
