@@ -9,6 +9,7 @@
 #define PCL_NO_PRECOMPILE
 #include <pcl/point_cloud.h> /* pcl::PointCloud */
 #include <pcl/point_types.h> /* pcl::PointXYZ */
+#include <pcl/PCLPointCloud2.h>
 #include <Eigen/Core>
 #include <string>
 #include <tuple>
@@ -21,10 +22,19 @@ typedef pcl::PointCloud<Point> PointCloud;
 typedef PointCloud::Ptr PointCloudPtr;
 typedef PointCloud::ConstPtr PointCloudConstPtr;
 
+typedef pcl::PCLPointCloud2 PointCloud2;
+typedef pcl::PCLPointCloud2::Ptr PointCloud2Ptr;
+typedef pcl::PCLPointCloud2::ConstPtr PointCloud2ConstPtr;
+
 typedef pcl::PointXYZI PointI;
 typedef pcl::PointCloud<PointI> PointICloud;
 typedef PointICloud::Ptr PointICloudPtr;
 typedef PointICloud::ConstPtr PointICloudConstPtr;
+
+typedef pcl::PointXYZRGBA PointRGBA;
+typedef pcl::PointCloud<PointRGBA> PointRGBACloud;
+typedef PointICloud::Ptr PointRGBACloudPtr;
+typedef PointICloud::ConstPtr PointRGBACloudConstPtr;
 
 typedef pcl::PointNormal PointN;
 typedef pcl::PointCloud<PointN> PointNCloud;
