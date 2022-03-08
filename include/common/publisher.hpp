@@ -7,6 +7,7 @@
 #define COMMON_INCLUDE_COMMON_PUBLISHER_HPP_
 
 #include <pcl/common/common.h>  // pcl::getMinMax3D
+#include <pcl_conversions/pcl_conversions.h>
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>  // std_msgs, sensor_msgs
 #include <std_msgs/ColorRGBA.h>       // std_msgs::ColorRGBA
@@ -36,6 +37,17 @@ static void publishCloud(const ros::Publisher &publisher,
     if (cloud.size()) {
         sensor_msgs::PointCloud2 msg_cloud;
         pcl::toROSMsg(cloud, msg_cloud);
+        msg_cloud.header = header;
+        publisher.publish(msg_cloud);
+    }
+}
+
+static void publishCloud(const ros::Publisher &publisher,
+                         const std_msgs::Header &header,
+                         const PointCloud2 &cloud) {
+    if (cloud.width*cloud.height) {
+        sensor_msgs::PointCloud2 msg_cloud;
+        pcl_conversions::fromPCL(cloud, msg_cloud);
         msg_cloud.header = header;
         publisher.publish(msg_cloud);
     }
@@ -179,6 +191,43 @@ static void publishPointCloudArray(const ros::Publisher &publisher,
             }
             sensor_msgs::PointCloud2 cloud;
             pcl::toROSMsg(*segment_array[idx], cloud);
+            clouds.push_back(cloud);
+        }
+
+        if (!clouds.empty()) {
+            segments_msg.header = header;
+            segments_msg.clouds = clouds;
+
+            publisher.publish(segments_msg);
+        }
+    }
+}
+
+static void publishPointCloudArray(const ros::Publisher &publisher,
+                                   const std_msgs::Header &header,
+                                   const std::vector<pcl::PCLPointCloud2> &segment_array) {
+    if (segment_array.empty()) {
+        ROS_WARN("Publish empty result segments.");
+        // publish empty cloud array
+        autosense_msgs::PointCloud2Array segments_msg;
+        segments_msg.header = header;
+        publisher.publish(segments_msg);
+
+        return;
+    } else {
+        ROS_INFO_STREAM("Publishing " << segment_array.size() << " segments.");
+
+        autosense_msgs::PointCloud2Array segments_msg;
+        std::vector<sensor_msgs::PointCloud2> clouds;
+
+        for (size_t idx = 0u; idx < segment_array.size(); ++idx) {
+            if ((segment_array[idx].width*segment_array[idx].height) <= 0) {
+                ROS_WARN_STREAM("An empty Segment #" << idx << ".");
+                continue;
+            }
+
+            sensor_msgs::PointCloud2 cloud;
+            pcl_conversions::fromPCL(segment_array[idx], cloud);
             clouds.push_back(cloud);
         }
 

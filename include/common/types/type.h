@@ -10,6 +10,7 @@
 #include <pcl/point_cloud.h> /* pcl::PointCloud */
 #include <pcl/point_types.h> /* pcl::PointXYZ */
 #include <pcl/PCLPointCloud2.h>
+#include <pcl/PointIndices.h>
 #include <Eigen/Core>
 #include <string>
 #include <tuple>
