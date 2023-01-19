@@ -17,7 +17,7 @@
 #ifndef COMMON_INCLUDE_COMMON_TYPES_OBJECT_HPP_
 #define COMMON_INCLUDE_COMMON_TYPES_OBJECT_HPP_
 
-#include <pcl/io/io.h>  // pcl::copyPointCloud
+#include <pcl/common/io.h>  // pcl::copyPointCloud
 #include <Eigen/Core>
 #include <memory>
 #include "common/types/feature.hpp"

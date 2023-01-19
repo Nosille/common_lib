@@ -115,11 +115,9 @@ class ConvexHull2DXY : public pcl::ConvexHull<PointT> {
         // output from qh_produce_output(), use NULL to skip qh_produce_output()
         FILE *outfile = NULL;
 
-#ifndef HAVE_QHULL_2011
         if (compute_area_) {
             outfile = stderr;
         }
-#endif
 
         // option flags for qhull, see qh_opt.htm
         const char *flags = qhull_flags.c_str();
@@ -130,7 +128,7 @@ class ConvexHull2DXY : public pcl::ConvexHull<PointT> {
         coordT *points = reinterpret_cast<coordT *>(
             calloc(indices_->size() * dimension, sizeof(coordT)));
         if (points == NULL) {
-            hull->points.resize(0);
+            hull->resize(0);
             hull->width = hull->height = 0;
             polygons->resize(0);
             return;
@@ -145,18 +143,23 @@ class ConvexHull2DXY : public pcl::ConvexHull<PointT> {
                 static_cast<coordT>(input_->points[(*indices_)[i]].y);
         }
 
+        qhT qh_qh;
+        qhT* qh = &qh_qh;
+        QHULL_LIB_CHECK
+        qh_zero(qh, errfile);
+
         // Compute convex hull
         int exitcode =
-            qh_new_qhull(dimension, static_cast<int>(indices_->size()), points,
+            qh_new_qhull(qh, dimension, static_cast<int>(indices_->size()), points,
                          ismalloc, const_cast<char *>(flags), outfile, errfile);
-#ifdef HAVE_QHULL_2011
-        if (compute_area_) {
-            qh_prepare_output();
+
+        if (compute_area_)
+        {
+            qh_prepare_output(qh);
         }
-#endif
 
         // 0 if no error from qhull or it doesn't find any vertices
-        if (exitcode != 0 || qh num_vertices == 0) {
+        if (exitcode != 0 || qh->num_vertices == 0) {
             PCL_ERROR(
                 "[pcl::%s::performReconstrution2D] "
                 "ERROR: qhull was unable to compute "
@@ -164,26 +167,26 @@ class ConvexHull2DXY : public pcl::ConvexHull<PointT> {
                 "cloud (%lu)!\n",
                 getClassName().c_str(), indices_->size());
 
-            hull->points.resize(0);
+            hull->resize(0);
             hull->width = hull->height = 0;
             polygons->resize(0);
 
-            qh_freeqhull(!qh_ALL);
+            qh_freeqhull(qh, !qh_ALL);
             int curlong, totlong;
-            qh_memfreeshort(&curlong, &totlong);
+            qh_memfreeshort(qh, &curlong, &totlong);
             return;
         }
 
         // Qhull returns the area in volume for 2D
         if (compute_area_) {
-            total_area_ = qh totvol;
+            total_area_ = qh->totvol;
             total_volume_ = 0.0;
         }
 
-        int num_vertices = qh num_vertices;
-        hull->points.resize(num_vertices);
-        memset(&hull->points[0], static_cast<int>(hull->points.size()),
-               sizeof(PointT));
+        int num_vertices = qh->num_vertices;
+
+        hull->clear();
+        hull->resize(num_vertices, PointT{});               
 
         vertexT *vertex;
         int i = 0;
@@ -195,17 +198,18 @@ class ConvexHull2DXY : public pcl::ConvexHull<PointT> {
         memset(&idx_points[0], static_cast<int>(hull->points.size()),
                sizeof(std::pair<int, Eigen::Vector4f>));
 
-        FORALLvertices {
+        FORALLvertices
+        {
             hull->points[i] =
-                input_->points[(*indices_)[qh_pointid(vertex->point)]];
-            idx_points[i].first = qh_pointid(vertex->point);
+                input_->points[(*indices_)[qh_pointid(qh, vertex->point)]];
+            idx_points[i].first = qh_pointid(qh, vertex->point);
             ++i;
         }
 
         // Sort
         Eigen::Vector4f centroid;
         pcl::compute3DCentroid(*hull, centroid);
-        for (size_t j = 0; j < hull->points.size(); j++) {
+        for (size_t j = 0; j < hull->size(); j++) {
             idx_points[j].second[0] = hull->points[j].x - centroid[0];
             idx_points[j].second[1] = hull->points[j].y - centroid[1];
         }
@@ -213,16 +217,16 @@ class ConvexHull2DXY : public pcl::ConvexHull<PointT> {
         std::sort(idx_points.begin(), idx_points.end(), pcl::comparePoints2D);
 
         polygons->resize(1);
-        (*polygons)[0].vertices.resize(hull->points.size());
+        (*polygons)[0].vertices.resize(hull->size());
 
         for (int j = 0; j < static_cast<int>(hull->points.size()); j++) {
             hull->points[j] = input_->points[(*indices_)[idx_points[j].first]];
             (*polygons)[0].vertices[j] = static_cast<unsigned int>(j);
         }
 
-        qh_freeqhull(!qh_ALL);
+        qh_freeqhull(qh, !qh_ALL);
         int curlong, totlong;
-        qh_memfreeshort(&curlong, &totlong);
+        qh_memfreeshort(qh, &curlong, &totlong);
 
         hull->width = static_cast<uint32_t>(hull->points.size());
         hull->height = 1;
