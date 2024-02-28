@@ -17,7 +17,7 @@
 #include <utility>
 #include <vector>
 
-#include "common/types/type.h"
+#include "common_lib/types/type.h"
 
 namespace autosense {
 namespace common {

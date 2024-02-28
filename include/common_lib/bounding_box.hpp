@@ -21,8 +21,8 @@
 BOOST_GEOMETRY_REGISTER_C_ARRAY_CS(cs::cartesian)
 
 
-#include "common/common.hpp"
-#include "common/types/object.hpp"
+#include "common_lib/common.hpp"
+#include "common_lib/types/object.hpp"
 
 namespace autosense {
 namespace common {

@@ -89,13 +89,22 @@ add_library(${PROJECT_NAME}
     src/algos/hungarian_bigraph_matcher.cpp
 )
 
-add_dependencies(${PROJECT_NAME}
-    ${GENERATE_SERVICE_MESSAGES}
-    ${GENERATE_MESSAGES}
+##############################################################################
+# Install
+##############################################################################
+
+# Mark executables and/or libraries for installation
+install(TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-#############
-## Install ##
-#############
+## Mark cpp header files for installation
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
 
-# ...
+# install(DIRECTORY launch/
+#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+# )

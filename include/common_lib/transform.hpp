@@ -15,7 +15,7 @@
 #include <string>
 #include <vector>
 
-#include "common/types/object.hpp"  // ObjectPtr
+#include "common_lib/types/object.hpp"  // ObjectPtr
 
 namespace autosense {
 namespace common {

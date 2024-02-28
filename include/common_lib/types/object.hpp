@@ -20,8 +20,8 @@
 #include <pcl/common/io.h>  // pcl::copyPointCloud
 #include <Eigen/Core>
 #include <memory>
-#include "common/types/feature.hpp"
-#include "common/types/type.h"
+#include "common_lib/types/feature.hpp"
+#include "common_lib/types/type.h"
 
 namespace autosense {
 

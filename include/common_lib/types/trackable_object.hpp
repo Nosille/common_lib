@@ -19,9 +19,9 @@
 
 #include <memory>
 
-#include "common/geometry.hpp"
-#include "common/types/object.hpp"
-#include "common/types/type.h"
+#include "common_lib/geometry.hpp"
+#include "common_lib/types/object.hpp"
+#include "common_lib/types/type.h"
 
 namespace autosense {
 // TODO(gary): 引入“锚点”观测

@@ -9,7 +9,7 @@
 #include <pcl/point_cloud.h>
 #include <Eigen/Core>
 
-#include "common/types/object.hpp"  // ObjectPtr
+#include "common_lib/types/object.hpp"  // ObjectPtr
 
 namespace autosense {
 namespace common {

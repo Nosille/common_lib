@@ -17,15 +17,15 @@
 #include <map>
 #include <algorithm>
 
-#include "common/msgs/autosense_msgs/PointCloud2Array.h"
-#include "common/msgs/autosense_msgs/TrackingFixedTrajectoryArray.h"
-#include "common/msgs/autosense_msgs/TrackingObjectArray.h"
+#include "common_lib/msgs/autosense_msgs/PointCloud2Array.h"
+#include "common_lib/msgs/autosense_msgs/TrackingFixedTrajectoryArray.h"
+#include "common_lib/msgs/autosense_msgs/TrackingObjectArray.h"
 
-#include "common/common.hpp"
-#include "common/geometry.hpp"      // common::geometry::calcYaw4DirectionVector
-#include "common/transform.hpp"     // common::transform::transformPointCloud
-#include "common/types/object.hpp"  // ObjectPtr
-#include "common/types/type.h"
+#include "common_lib/common.hpp"
+#include "common_lib/geometry.hpp"      // common::geometry::calcYaw4DirectionVector
+#include "common_lib/transform.hpp"     // common::transform::transformPointCloud
+#include "common_lib/types/object.hpp"  // ObjectPtr
+#include "common_lib/types/type.h"
 
 namespace autosense {
 namespace common {

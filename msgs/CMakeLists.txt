@@ -28,9 +28,9 @@ foreach(message_path ${message_paths})
             TARGET ${message_name}_generate_messages_cpp
             PRE_BUILD
             # remove first to make sure corrent ln -s
-            COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/../include/common/msgs/${message_name}
+            COMMAND rm -rf ${CMAKE_CURRENT_SOURCE_DIR}/../include/common_lib/msgs/${message_name}
             COMMAND ln -s ${CATKIN_DEVEL_PREFIX}/include/${message_name}
-            ${CMAKE_CURRENT_SOURCE_DIR}/../include/common/msgs/${message_name}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../include/common_lib/msgs/${message_name}
             COMMENT "Geneate messages link into common include"
         )
     endif()

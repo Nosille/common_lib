@@ -32,7 +32,7 @@
 * /mixer/matching/HungarianOptimizer.java
 ****************************************************************************/
 
-#include "common/algos/hungarian_bigraph_matcher.hpp"
+#include "common_lib/algos/hungarian_bigraph_matcher.hpp"
 
 #include <iostream>  // NULL
 #include <limits>    // std::numeric_limits
